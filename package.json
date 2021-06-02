@@ -15,11 +15,16 @@
   },
   "author": "Angelica Theran",
   "license": "MIT",
+  "bin": {
+    "mdlinks": "./cli.js"
+  },
   "bugs": {
     "url": "https://github.com/AngelicaT319/BOG002-md-links/issues"
   },
   "homepage": "https://github.com/AngelicaT319/BOG002-md-links#readme",
   "dependencies": {
     "axios": "^0.21.1"
-  }
+  },
+  "devDependencies": {},
+  "keywords": []
 }
