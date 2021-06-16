@@ -2,7 +2,7 @@
 //   // ...
 // };
 
-const file = './README.md'
+const file = './directorio/'
 const path = require('path');
 const fs = require('fs');
 const markdownLinkExtractor = require('markdown-link-extractor');
@@ -16,16 +16,45 @@ function evaluatePath(file){
 }
 const route= evaluatePath(file);
 
+// FUNCION PARA SABER SI LA RUTA ES UN ARCHIVO
+const isFile = (route) => fs.statSync(route).isFile();
+
+
+// FUNCION PARA SABER SI ES UN ARCHIVO .MD
+const isMdFile = (route) => (path.extname(route) === '.md');
 // evaluar si archivo es de extension MD//
 function mdExt(route){
-  if(path.extname(route) !== '.md'){
-    console.log('Este archivo no tiene la extension correcta')
+  // array de archivos md dentro del folder
+  let arrayMdFile = [];
+  // si es un ruta de archivo
+  if(isFile(route)){
+    if(isMdFile(route)){
+      arrayMdFile.push(route);
+    } else {
+      console.error('no es un archivo valido')
+    }
   } else{
-    console.log('working')
-    // pasar el .then de readfile
+    const arrayOfFiles = fs.readdirSync(route);
+    const stringDir= arrayOfFiles.toString()
+    const newRoute= route.concat('/',stringDir)
+    console.log('soy extension',arrayOfFiles)
+    console.log('soy nueva ruta - ', newRoute)
+    mdExt(newRoute)
+    // // const arrayMd = getMdFiles(path.join(route, file));
+    //   arrayOfFiles.forEach((file) => {
+    //     // arrayMdFile = arrayMdFile.concat(arrayMd);
+    //   });
   }
+  return arrayMdFile;
 }
-console.log(mdExt(route)) //--> probando func
+mdExt(route)
+
+
+
+
+
+
+
 
 // read file//
 const reader = new Promise((resolve,reject)=>{
@@ -60,7 +89,7 @@ function createObjLink(data){
       arrLink.push(objLink)
     }
   });
-  console.log(arrLink)
+  // console.log(arrLink)
 }
 
 
