@@ -1,6 +1,6 @@
 # MD Links
 
-// descripción del módulo,
+Este módulo de **node.js** permite visualizar los links que se encuentran en un archivo `.md`
 
 ## Instrucciones
 
