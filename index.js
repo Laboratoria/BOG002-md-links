@@ -1,13 +1,12 @@
 const fs = require('fs');
+const https = require('https');
 const path = require('path');
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
 
 // - - - Sync
 
 function textToLinks (text) {
   let links = [];
-  // let regexp = /\(([^)]+)\)/g;
-  // Encontrar una cadena que cumpla con [ ${textorandom => name} ]( ${otro textorandom => href} )
   let control = {
     openBrackets: false,
     openParen:false,
@@ -34,7 +33,6 @@ function textToLinks (text) {
           links.push({
             text: control.name,
             href: control.href,
-            file: path.resolve(pathName)
           })
         } else {
           control.href = `${control.href}${text[i]}`
@@ -55,7 +53,7 @@ function textToLinks (text) {
   return links
 }
 
-// - - - Async 
+// - - - Async
 
 const getFile = (pathName) => { 
   return new Promise(
@@ -65,9 +63,9 @@ const getFile = (pathName) => {
         if(error){
           switch (error.code){
             case 'ENOENT':
-              reject(new Error('No se encontraron archivos en la ruta'));
+              reject(new Error(`No se encontraron archivos en la ruta ${pathName}`));
             default:
-              reject(new Error(error.code));
+              reject(new Error(`Error ${error.code} al leer el archivo ${pathName}`));
           }
         } else {
           resolve(data);
@@ -82,7 +80,7 @@ const getDir = (pathName, paths, ignore = []) => {
   for (let i = 0; i<files.length; i++) {
     if ( ignore.indexOf(files[i]) === -1 ) {
       let filePath = path.join(pathName, files[i]);
-      let dataFile = fs.lstatSync(filePath) === undefined ? null : fs.lstatSync(filePath);
+      let dataFile = !fs.lstatSync(filePath) ? null : fs.lstatSync(filePath);
       if (dataFile) {
         if (dataFile.isDirectory()) {
           getDir(filePath, paths);
@@ -96,7 +94,7 @@ const getDir = (pathName, paths, ignore = []) => {
   }
 }
 
-function readFile(filePath, validate = false) {
+const readFile = (filePath, validate) => {
   return new Promise(
     function(resolve, reject) {
       // Obtiene el archivo
@@ -104,22 +102,21 @@ function readFile(filePath, validate = false) {
       .then((text) => {
         //Obtiene los links
         let links = textToLinks(text);
+        links.forEach(link => {
+          link.file = path.resolve(filePath);
+        });
         if(validate) {
-          //Validar
-          let validated = [];
-          links.forEach(link => {
-            validation(link).then((result) => {
-              validated.push(result);
-            }).catch((error) => {
-              console.log( 'Error en Validation', error);
-            });
-          });
-          resolve(validated)
+          let arrayPromesas = links.map((l) => {
+            return validation(l)
+          })
+          Promise.all(arrayPromesas).then((values)=>{
+            resolve(values)
+          })
         } else {
           resolve(links);
         }
       }).catch((error) => {
-        reject(new Error(error.code));
+        reject(new Error(error));
       });
     }
   )
@@ -144,11 +141,12 @@ function validation (link) {
           link.status = 404;
           resolve(link);
         } else {
-          console.log('Error en Validation (148)', error.code);
-          reject(new Error(error.code));
+          reject(new Error(`Error ${error.code} en la validación del link ${link.href}`));
         }
       });
-    } 
+    }  else {
+      resolve(link)
+    }
   })
 }
 
@@ -156,27 +154,24 @@ function mdLinks (pathName, options = {validate:false}) {
   // Retorna una promesa que resuelve los links o un error
   return new Promise(
     function (resolve,reject){
+
       //Comprueba si la ruta existe
       if(fs.existsSync(pathName)){
         let extension = path.extname(pathName);
-        let links = [];
         switch (extension){
 
           case '.md':
             readFile(pathName, options.validate).then( (result) => {
-              result.forEach(link => {
-                links.push(link)
-              });
-              resolve(links);
+              resolve(result);
             }).catch((error) => {
-              console.log(pathName)
-              reject(new Error('Error al leer archivo '+ pathName));
+              reject(new Error(error));
             });
             break;
 
           case '':
             //Leer carpeta
             let dirFiles = [];
+            let links = [];
             getDir(pathName, dirFiles, ['node_modules']);
             dirFiles.forEach(filePath => {
               readFile(filePath, options.validate).then( (result) => {
@@ -185,7 +180,7 @@ function mdLinks (pathName, options = {validate:false}) {
                 });
                 resolve(links);
               }).catch((error) => {
-                reject(new Error(error.code));
+                reject(new Error(error));
               });
             })
             break;
