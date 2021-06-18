@@ -1,10 +1,17 @@
 # MD Links
 
-Este módulo de **node.js** permite visualizar los links que se encuentran en un archivo `.md`
+Este módulo de **node.js** permite encontrar y listar los links que se encuentran en un archivo `.md`, o de todos los archivos `.md` encontrados en una carpeta.
 
 ## Instrucciones
 
 // instrucciones de instalación/uso, 
+
+### Instalación
+
+El módulo se puede instalar desde (---)
+
+### Uso
+
 
 ## Documentación
 
