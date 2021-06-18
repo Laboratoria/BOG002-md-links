@@ -12,6 +12,7 @@ const mdLinks = (MD,  options = { validate: false }) => {
     const extFile = realPath.extname(MD);
     return new Promise((resolve, reject) => {
           if (extFile===".md"){
+            console.log(MD)
             resolve(MD)
           } else{
             reject("array vacio")
@@ -19,12 +20,14 @@ const mdLinks = (MD,  options = { validate: false }) => {
             
             
     })};
+    
 mdLinks(MD,true)
+
 .then(res => {
   var userWrote=true
   console.log(functions.readLinks(res,userWrote))
-
-  // functions.readLinks(res)
+ 
+ 
   
   
 })
