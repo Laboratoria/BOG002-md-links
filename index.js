@@ -8,59 +8,68 @@ const { JSDOM } = jsdom;
 const fs = require('fs');
 const path = require('path');
 
-//Leer el archivo .md
-const ReadMDFile = (path) => {
+//Funcion que revisa que la ruta ingresada cumpla con los requerimientos para ser validada.
+const pathAbsolute = ((ruta) => {
 
-  //Asincrono
-  // fs.readFile(path, 'utf8', (err, data) => {
-  //   if (err) {
-  //     console.error(err)
-  //     return
-  //   }
-  //Sincrono
-  const data = fs.readFileSync(path, 'utf8')
-  const mdHTML = md.render(data);
-  const dom = new JSDOM(mdHTML);
-  const etiquetasA = dom.window.document.querySelectorAll("a")
-
-  let arrayLinks = []
-  etiquetasA.forEach((link) => {
-
-    const coincidenciaEnlace = new RegExp('#', 'y');
-    const attributeHref = link.getAttribute('href');
-
-    if (coincidenciaEnlace.test(attributeHref)) {
-      console.log('no es un link')
-    } else {
-      arrayLinks.push({
-        href: link.getAttribute('href'),
-        text: link.textContent,
-        file: path
-      })
-    }
-
-  })
-
-  return arrayLinks
-
-  // })
-}
-// console.log(ReadMDFile("./README.md"));
-ReadMDFile("./README.md")
-
-const requirementsFile = new Promise(function (myResolve, myReject) {
-
-  const isAbsoluteFile = path.isAbsolute();
+  const isAbsoluteFile = path.isAbsolute(ruta);
+  console.log(isAbsoluteFile)
 
   if (isAbsoluteFile) {
-    myResolve('El archivo es absoluto');
+    console.log('La ruta es absoluta');
+    return ruta
   } else {
-    myReject('El archivo NO es absoluto');
+    console.log('La ruta NO es absoluta');
+    const pathConvertidaAbsoluta = path.resolve(ruta);
+    return pathConvertidaAbsoluta;
   }
 
 });
+pathAbsolute("C:/Users/Laboratoria/Documents/Laboratoria bootcamp/BOG002-md-links/README.md")
 
-requirementsFile.then(
+//Leer el archivo .md
+// const ReadMDFile = (ruta) => {
+
+//   requirementsFile(ruta)
+//     // .then((resultado) => { console.log(resultado)})
+//     // .catch((error) => { console.log(error) });
+
+//   //Asincrono
+//   // fs.readFile(ruta, 'utf8', (err, data) => {
+//   //   if (err) {
+//   //     console.error(err)
+//   //     return
+//   //   }
+//   //Sincrono
+//   const data = fs.readFileSync(ruta, 'utf8')
+//   const mdHTML = md.render(data);
+//   const dom = new JSDOM(mdHTML);
+//   const etiquetasA = dom.window.document.querySelectorAll("a")
+
+//   let arrayLinks = []
+//   etiquetasA.forEach((link) => {
+
+//     const coincidenciaEnlace = new RegExp('#', 'y');
+//     const attributeHref = link.getAttribute('href');
+
+//     if (!coincidenciaEnlace.test(attributeHref)) {
+
+//       arrayLinks.push({
+//         href: link.getAttribute('href'),
+//         text: link.textContent,
+//         file: ruta
+//       })
+
+//     }
+
+//   })
+
+//   return arrayLinks
+// }
+// // console.log(ReadMDFile("./README.md"));
+// ReadMDFile("README.md")
+
+
+/*requirementsFile.then(
   function(value) {ReadMDFile(value);},
-  function(error) {ReadMDFile(error);}
-);
+
+).catch((error) => {console.log(error)});*/
