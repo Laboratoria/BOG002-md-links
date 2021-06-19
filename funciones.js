@@ -2,7 +2,7 @@ const request = require('request');
 const markdownLinkExtractor = require('markdown-link-extractor');
 const { readFileSync } = require('fs');
 
-const readLinks=(archivo,bool)=>{
+async function readLinks(archivo,bool){
     const markdown = readFileSync(archivo, {encoding: 'utf8'});
 
 
@@ -10,49 +10,48 @@ const readLinks=(archivo,bool)=>{
 const details = markdownLinkExtractor(markdown,true);
 const arrayDetail=[]
 const arrayTrue=[]
-const arrayProm=[]
-let arraySecondobject=[]
+
 details.forEach(detail => arrayDetail.push(detail))
 
     for (var i in arrayDetail){
         let url=arrayDetail[i].href
         if (url.includes("https")||url.includes("http")){
-        // if (arrayDetail[i].text.includes("http") || arrayDetail[i].text.includes("https")  ){
-
         var objetoCorregido=new Object();
         objetoCorregido.href=arrayDetail[i].href;
         objetoCorregido.text=arrayDetail[i].text;
         objetoCorregido.rute="traer de recursion el path despeus de incorporar las expresiones esas";
-        arrayProm.push(status(objetoCorregido.href))        
-        // objetoCorregido.status="con el http,estoy atoradilla"
-        // objetoCorregido.ok="ok"
-         arrayTrue.push(objetoCorregido)
+         arrayTrue.push(await prueba(objetoCorregido.href,objetoCorregido))
     }   
     }
-    Promise.all(arrayProm)
-    .then(values => {console.log(values)})
     
-    
-    // })
-    // .then(arraySecundario=>{unirObjects(arrayTrue,arraySecundario)})
-    // .then(arrayUnidos=>{return arrayUnidos})
-        
+if(bool===true){
+    return arrayTrue
+}
+    else{
+    var arrayFalse = arrayTrue.slice();
+    for (var i in arrayFalse){
+         delete arrayFalse[i].status
+         delete arrayFalse[i].ok
+    }
+    return arrayFalse}
+ 
+}
 
-// if(bool===true){
-    return arrayTrue}
 
-// else{
-//     var arrayFalse = arrayTrue.slice();
-//     for (var i in arrayFalse){
-//          delete arrayFalse[i].status
-//          delete arrayFalse[i].ok
-//     }
-//     return arrayFalse}
-
+ async function prueba(param1,param2){
+  var pruebilla= await status(param1)
+ 
+  if (pruebilla==200){
+    param2.status=pruebilla
+      param2.ok="ok"
+  }else {
+    param2.status=400
+    param2.ok="fail"
+  }
+  return param2
+}
 
 function status(link){
- 
-
     return new Promise ((resolve, reject) => {
         const rep=request(link, (error, response)=>{
         if (response != undefined){
@@ -64,38 +63,7 @@ function status(link){
         }
     })})};
 
-function objectLastwo(valores,array2){
-        
-    for (var i = 0; i < valores.length; i++){
-        var statusok= new Object();
-        statusok.value=array2[i];
-        statusok.ok="ok";
-         array2.push(statusok)
-       }
-    return new Promise ((resolve, reject) => {
 
-        
-         resolve(array2)
-         reject("No funciono")
-    })
-    
-
-}
-
-function unirObjects(lista1,lista2){
-        
-    for (var i = 0; i < lista1.length; i++){
-        Object.assign(lista1[i],lista2[i]);
-       }
-    return new Promise ((resolve, reject) => {
-
-        
-         resolve(lista1)
-         reject("No funciono")
-    })
-    
-
-}
 
 module.exports = {
     readLinks,

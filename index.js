@@ -25,12 +25,8 @@ mdLinks(MD,true)
 
 .then(res => {
   var userWrote=true
-  console.log(functions.readLinks(res,userWrote))
- 
- 
-  
-  
-})
+return functions.readLinks(res,userWrote)})
+.then(hola=>{console.log(hola)})
     .catch(error=>{
       console.log("Nel perro "+error)
     });
