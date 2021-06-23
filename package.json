@@ -9,23 +9,6 @@
   "scripts": {
     "test": "jest --verbose --coverage"
   },
-  "keywords": [],
-  "author": "dsandovalm",
-  "license": "ISC",
-  "dependencies": {
-    "chalk": "^4.1.1",
-    "fetch": "^1.1.0",
-    "fs": "^0.0.1-security",
-    "inquirer": "^8.1.1",
-    "jest": "^27.0.4",
-    "node-fetch": "^2.6.1",
-    "path": "^0.12.7",
-    "readline": "^1.3.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dsandovalm/BOG002-md-links.git"
-  },
   "keywords": [
     "markdown",
     "link",
@@ -33,6 +16,21 @@
   ],
   "author": "dsandovalm",
   "license": "ISC",
+  "bin": {
+    "md-links": "./lib/cli.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "fs": "^0.0.1-security",
+    "jest": "^27.0.4",
+    "minimist": "^1.2.5",
+    "node-fetch": "^2.6.1",
+    "path": "^0.12.7",
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dsandovalm/BOG002-md-links.git"
+  },
   "bugs": {
     "url": "https://github.com/dsandovalm/BOG002-md-links/issues"
   },
