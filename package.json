@@ -1,4 +1,38 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "Modulo de node que permite ver y validar el estado de los links presentes en un archivo .md",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --verbose --coverage"
+  },
+  "keywords": [
+    "markdown",
+    "link",
+    "validation"
+  ],
+  "author": "dsandovalm",
+  "license": "ISC",
+  "bin": {
+    "md-links": "./lib/cli.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "fs": "^0.0.1-security",
+    "jest": "^27.0.4",
+    "minimist": "^1.2.5",
+    "node-fetch": "^2.6.1",
+    "path": "^0.12.7",
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dsandovalm/BOG002-md-links.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dsandovalm/BOG002-md-links/issues"
+  },
+  "homepage": "https://github.com/dsandovalm/BOG002-md-links#readme"
 }
