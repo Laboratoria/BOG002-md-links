@@ -1,35 +1,7 @@
-import { getFile, getDir } from './lib/getFiles.js';
-import textToLinks from './lib/getLinks.js';
-import validation from './lib/getLinks.js';
-
-function readFile(filePath, validate) {
-  return new Promise(
-    function(resolve, reject) {
-      // Obtiene el archivo
-      getFile(filePath)
-      .then((text) => {
-        //Obtiene los links
-        let links = textToLinks(text);
-        if(validate) {
-          //Validar
-          let validated = [];
-          links.forEach(link => {
-            validation(link).then((result) => {
-              validated.push(result);
-            }).catch((error) => {
-              reject(new Error(`Error ${error.code} al validar el link ${link.href}`));
-            });
-          });
-          resolve(validated)
-        } else {
-          resolve(links);
-        }
-      }).catch((error) => {
-        reject(new Error(error.code));
-      });
-    }
-  )
-}
+const fs = require('fs');
+const path = require('path');
+const getDir = require('./lib/getFiles').getDir;
+const readFile = require('./lib/reader');
 
 function mdLinks (pathName, options = {validate:false}) {
   // Retorna una promesa que resuelve los links o un error
@@ -38,24 +10,20 @@ function mdLinks (pathName, options = {validate:false}) {
       //Comprueba si la ruta existe
       if(fs.existsSync(pathName)){
         let extension = path.extname(pathName);
-        let links = [];
         switch (extension){
 
           case '.md':
             readFile(pathName, options.validate).then( (result) => {
-              result.forEach(link => {
-                links.push(link)
-              });
-              resolve(links);
+              resolve(result);
             }).catch((error) => {
-              console.log(pathName)
-              reject(new Error('Error al leer archivo '+ pathName));
+              reject(new Error(error));
             });
             break;
 
           case '':
             //Leer carpeta
             let dirFiles = [];
+            let links = [];
             getDir(pathName, dirFiles, ['node_modules']);
             dirFiles.forEach(filePath => {
               readFile(filePath, options.validate).then( (result) => {
@@ -64,7 +32,7 @@ function mdLinks (pathName, options = {validate:false}) {
                 });
                 resolve(links);
               }).catch((error) => {
-                reject(new Error(error.code));
+                reject(new Error(error));
               });
             })
             break;
@@ -74,32 +42,12 @@ function mdLinks (pathName, options = {validate:false}) {
             break;
         }
       } else {
-        reject( new Error(`La ruta no existe`));
+        reject( new Error(`La ruta ${pathName} no existe`));
       } 
     }
   )
 }
-mdLinks('../SocialNetwork/noExiste.txt').then(result => 
-  console.log(result)
-).catch(error =>
-  console.log(error)
-);
-mdLinks('./README.md',{validate:true}).then(result => 
-  console.log(result)
-).catch(error =>
-  console.log(error)
-);
-mdLinks('../SocialNetwork/README.md').then(result => 
-  console.log(result)
-).catch(error =>
-  console.log(error)
-);
-mdLinks('../DataLovers',{validate:true}).then(result => 
-  console.log(result)
-).catch(error =>
-  console.log(error)
-);
 
-module.exports = (pathName, options = false) => {
-  mdLinks(pathName, options)
+module.exports = (pathName, options) => {
+  return mdLinks(pathName, options)
 };
