@@ -3,10 +3,12 @@ const path = require('path');
 const getDir = require('./lib/getFiles').getDir;
 const readFile = require('./lib/reader');
 
+
 function mdLinks (pathName, options = {validate:false}) {
   // Retorna una promesa que resuelve los links o un error
   return new Promise(
     function (resolve,reject){
+
       //Comprueba si la ruta existe
       if(fs.existsSync(pathName)){
         let extension = path.extname(pathName);
