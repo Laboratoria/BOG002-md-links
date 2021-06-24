@@ -9,22 +9,73 @@ const fs = require('fs');
 const path = require('path');
 
 //Funcion que revisa que la ruta ingresada cumpla con los requerimientos para ser validada.
-const pathAbsolute = ((ruta) => {
+// const pathAbsolute = ((ruta) => {
 
-  const isAbsoluteFile = path.isAbsolute(ruta);
-  console.log(isAbsoluteFile)
+//   const pathExist = fs.existsSync(ruta)
+//   const isAbsoluteFile = path.isAbsolute(ruta);
 
-  if (isAbsoluteFile) {
-    console.log('La ruta es absoluta');
-    return ruta
-  } else {
-    console.log('La ruta NO es absoluta');
-    const pathConvertidaAbsoluta = path.resolve(ruta);
-    return pathConvertidaAbsoluta;
-  }
+//   if (pathExist && isAbsoluteFile) {
+//     console.log('La ruta existe y es absoluta');
+//     return ruta
+//   } else if (pathExist && !isAbsoluteFile) {
+//     console.log('La ruta existe y NO es absoluta');
+//     const pathConvertAbsolut = path.resolve(ruta);
+//     return pathConvertAbsolut;
+//   } else {
+//     console.log("la ruta no existe")
+//   }
 
+// });
+// pathAbsolute("C:/Users/Laboratoria/Documents/Laboratoria bootcamp/BOG002-md-links/README.md")
+// pathAbsolute("README.md")
+
+const pathDirectory = ((ruta, fileDirectory) => {
+
+  let arrayFilesDirectory = fileDirectory || [];
+  const files = fs.readdirSync(ruta)
+
+  files.forEach((file) => {
+    const pathChild = path.join(ruta, file)
+    const fileIsDirectory = fs.lstatSync(pathChild).isDirectory()
+
+    if (fileIsDirectory === true) {
+      // console.log("es un directorio")
+      arrayFilesDirectory = pathDirectory(pathChild, arrayFilesDirectory)
+      // arrayFilesDirectory.push(fs.readdirSync(ruta).map((rutaHijo) => pathDirectory(ruta + '/' + rutaHijo)))
+      console.log(arrayFilesDirectory)
+
+    } else {
+      // console.log("No es un directorio");
+      const extFile = path.extname(pathChild);
+
+      if (extFile === ".md") {
+        arrayFilesDirectory.push(pathChild)
+      }
+    }
+
+  })
+  // if (fileIsDirectory) {
+
+  // console.log('La ruta es un directorio');
+  // const pathConvertFile = fs.readdirSync(ruta);
+  // console.log(pathConvertFile)
+  // return pathConvertFile
+
+
+  // }  (!fileIsDirectory){
+  //   console.log('La ruta NO es un directorio');
+  //   return ruta;
+  // }
+  return arrayFilesDirectory;
 });
-pathAbsolute("C:/Users/Laboratoria/Documents/Laboratoria bootcamp/BOG002-md-links/README.md")
+const resultado = pathDirectory("C:/Users/Laboratoria/Documents/Laboratoria bootcamp/BOG002-md-links/node_modules")
+console.log(resultado)
+
+// if (module.parent == undefined) {
+//   // node dirTree.js ~/foo/bar
+//   var util = require('util');
+//   console.log(util.inspect(pathDirectory(process.argv[2]), false, null));
+// }
 
 //Leer el archivo .md
 // const ReadMDFile = (ruta) => {
@@ -67,9 +118,3 @@ pathAbsolute("C:/Users/Laboratoria/Documents/Laboratoria bootcamp/BOG002-md-link
 // }
 // // console.log(ReadMDFile("./README.md"));
 // ReadMDFile("README.md")
-
-
-/*requirementsFile.then(
-  function(value) {ReadMDFile(value);},
-
-).catch((error) => {console.log(error)});*/
