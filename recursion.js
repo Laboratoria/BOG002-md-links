@@ -6,7 +6,7 @@ const fs = require('fs');
 // Path Evaluation (relative or absolute)
 function evaluatePath(file){
     if(path.isAbsolute(file)===false){
-     return path.resolve(file);
+      return path.resolve(file);
     }
 }
   
@@ -33,7 +33,7 @@ function mdExt(route){
           mdExt(path.join(route, element));
         })
     }
-    return arrayMdFile
+  return arrayMdFile
 }
   
 module.exports = {

@@ -6,8 +6,8 @@ const { default: fetch } = require('node-fetch');
 
 
 // recorrer array de links y evaluar file
-const pathAbs= recursion.evaluatePath(file);
-const pathMd= recursion.mdExt(pathAbs)
+
+
 
 // read file//
 const reader = (route)=>{
@@ -21,15 +21,6 @@ const reader = (route)=>{
     });
   });
 }
-//MDLinks--> path
-pathMd.forEach((route)=>{
-  reader(route)
-    .then(data =>{
-    createObjLink(data)
-    validate(data)
-    })
-    .catch((error => console.log('soy el error',{error})))
-})
 // Crear array de objetos con links//
 function createObjLink(data){
   let arrLink=[]
@@ -49,29 +40,43 @@ function createObjLink(data){
   });
   return (arrLink)
 }
+//MDLinks--> path
+function readFiles(listFiles) {
+    // let arrayFiles=[]
+    const arrayFiles= listFiles.forEach((route)=>{
+        return reader(route)
+        .then(data => {
+            const dataObj=createObjLink(data)
+           return dataObj
+
+        })
+        .catch((error => console.log('soy el error',{error})))
+    })
+    console.log(arrayFiles)
+}
 
 
 //validate
 
-function validate(data){
-  const arrayLinks=createObjLink(data)
+function validate(arrayLinks){
   const arrayPromise= arrayLinks.map((element)=>fetch(element.link)
     .then((res) => {
       if (res.status === 200) {
-        console.log({
+        return({
           ...element,
           status: res.status,
           statusText: res.statusText,
         })
       } else {
-          console.log({
+        return({
             ...element,
             status: res.status,
             statusText: 'FAIL',
-          })
+        })
       }
     })
-    .catch(() => {
+    .catch((error) => {
+        console.error(error)
       return{
         ...element,
         status: 'Error',
@@ -79,6 +84,7 @@ function validate(data){
       }
     })
   )
+    return Promise.all(arrayPromise)
 }
 
 
@@ -87,4 +93,5 @@ module.exports = {
   createObjLink,
   reader,
   validate,
+  readFiles,
 };
