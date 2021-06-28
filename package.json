@@ -22,6 +22,7 @@
   "dependencies": {
     "eslint": "^7.28.0",
     "jsdom": "^16.6.0",
-    "markdown-it": "^12.0.6"
+    "markdown-it": "^12.0.6",
+    "node-fetch": "^2.6.1"
   }
 }
