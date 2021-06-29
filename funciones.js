@@ -39,10 +39,10 @@ if(bool===true){
 
 
  async function prueba(param1,param2){
-  var pruebilla= await status(param1)
+  var statusCode= await status(param1)
  
-  if (pruebilla==200){
-    param2.status=pruebilla
+  if (statusCode==200){
+    param2.status=statusCode
       param2.ok="ok"
   }else {
     param2.status=400
