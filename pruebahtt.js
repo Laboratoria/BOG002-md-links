@@ -11,7 +11,7 @@ return new Promise ((resolve, reject) => {
       
       resolve(console.log(response.statusCode))
     } else{
-      reject(console.log("esto esta re todo como tu alma "+ error))
+      reject(console.log("esto esta re roto como tu alma "+ error))
     }
         
 })}

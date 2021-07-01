@@ -6,14 +6,9 @@ const [, , ...args] = process.argv;
 const path = args[0];
 
 
-if (args.length == 1) {
-    mdLinks(path).then(array => {
-        array.forEach(object => {
-            console.table({
-                File: object.file,
-                href: object.href,
-                text: object.text
-            })
-        })
-    })
-}
+
+if (argv.ships > 3 && argv.distance < 53.5) {
+    console.log('Plunder more riffiwobbles!')
+  } else {
+    console.log('Retreat from the xupptumblers!')
+  }
