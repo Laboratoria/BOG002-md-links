@@ -17,6 +17,7 @@ const pathAbsolute = ((ruta) => {
     const pathConvertAbsolut = path.resolve(ruta);
     return pathConvertAbsolut;
   } else {
+    //lanzar un error
     console.log("la ruta no existe")
   }
 });
