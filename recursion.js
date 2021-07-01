@@ -4,15 +4,25 @@
 const realPath = require('path');
 const realFs = require('fs');
 
-var base="D:/LAURAS/Laboratoria/Proyecto 4/BOG002-md-links"
-
+// var base="D:/LAURAS/Laboratoria/Proyecto 4/BOG002-md-links"
+var base='D:/LAURAS/Laboratoria/Proyecto 4/BOG002-md-links/README.md'
 // var base="prueba/holaestoindex.jsa"
 var relativeExt="prueba/holaestoindex.js"
 //cada vez que quiera salir de la carpeta en la que estoy agrego dos puntos,si pongo solo un punto es porque estoy en el mismo nivel de mi archivo
 var arrayMD=[]
 //deaddir solo resuelve absolutas
 // absolute(base)
-absolute(base)
+
+
+function main(base){
+  return new Promise((resolve,reject)=>{
+    absolute(base);
+    setTimeout(function(){ resolve(arrayMD) }, 2500);
+  })
+  
+  
+}
+
 function absolute(path){
   realPath.isAbsolute(path) ==true ? directorio(path) : directorio(convert(path)); 
 }
@@ -23,16 +33,16 @@ function directorio(link){
 
 
 function verificarMD(path){
-  console.log(path)
+  // console.log(path)
   if (realPath.extname(path) == ".md") {arrayMD.push(path)}
-  console.log(arrayMD)
+ 
 }
 
 
 function convert(path){
   let link=realPath.resolve(path)
 link=link.replace(/\\/g,"/")
-  console.log(link)
+  // console.log(link)
   return link
   }
   
@@ -49,32 +59,18 @@ function readDire(path){
         console.log(err);
       else {
 
-        console.log("Filenames with the .md extension:");
-        
-        console.log(files)
+       
         if(files.length==0){
           return
         }else{
         files.forEach(file => {
             
           absolute(path+"/"+file)
-                })    //   console.log(verificarMD(file))
-        //     if (verificarMD(file)==true){
-        //       arrayMD.push(file)
-        //     }
-        //     else if (verificarMD(file)!=true && verificarMD(file)!=false ){
-        //          otro.push(file)
-        //     }
-        
-        // })
-        // console.log(arrayMD)
-        // console.log(otro)
-        // otro.forEach(archi=>{
-        //   directorio(archi)
-        // })
+                })    
       }
       }
-    })}
+    })
+  }
 
 //  console.log(realPath.resolve("MINTIC/Ejercicios ciclo1"));
 //  console.log(process.cwd())
@@ -89,7 +85,7 @@ function readDire(path){
 // Hasta aqui va recursion
 
 module.exports = {
-  directorio,
+  main,
  
 };
 
