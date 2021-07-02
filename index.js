@@ -4,7 +4,7 @@ const realFs = require('fs');
 const directory = require('./recursion.js');
 //REPASO OPERADOR CONDICIONAL TERNIARIO
 
-const MD = "README.md"
+
 
 const mdLinks = (MD,  options = { validate: false }) => {
   var userWrote=true
@@ -16,12 +16,11 @@ const mdLinks = (MD,  options = { validate: false }) => {
       });
     }))};
    
-            
+           
     
-mdLinks(MD,true)    
 
 
-// module.exports = {
-//   mdLinks(param1,param2)
+
+module.exports = { mdLinks 
  
-// };
+};
