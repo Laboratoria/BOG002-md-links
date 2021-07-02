@@ -1,14 +1,18 @@
 const yargs = require('yargs/yargs')
-const { hideBin } = require('yargs/helpers')
-const argv = yargs(hideBin(process.argv)).argv
-const { mdLinks } = require("./index");
-const [, , ...args] = process.argv;
-const path = args[0];
+let funcionmd=require('./index.js')
+const argv = yargs
 
 
+if (argv.length == 1) {
+  funcionmd.mdLinks(path).then(array => {
+      array.forEach(object => {
+          console.table({
+              File: object.file,
+              href: object.href,
+              text: object.text
+          })
+      })
+  })
+}
 
-if (argv.ships > 3 && argv.distance < 53.5) {
-    console.log('Plunder more riffiwobbles!')
-  } else {
-    console.log('Retreat from the xupptumblers!')
-  }
+

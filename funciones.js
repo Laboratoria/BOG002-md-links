@@ -3,7 +3,7 @@ const markdownLinkExtractor = require('markdown-link-extractor');
 const { readFileSync } = require('fs');
 
 async function readLinks(archivo,bool){
-    const markdown = readFileSync(archivo, {encoding: 'utf8'});
+  const markdown = readFileSync(archivo, {encoding: 'utf8'});
 
 
 //El modulo markdown tiene dos moods (true-trae todos los detalles//false-solo los links)
@@ -12,14 +12,14 @@ const arrayDetail=[]
 const arrayTrue=[]
 
 details.forEach(detail => arrayDetail.push(detail))
-
+//ponerlo mejor con un map
     for (var i in arrayDetail){
         let url=arrayDetail[i].href
         if (url.includes("https")||url.includes("http")){
         var objetoCorregido=new Object();
         objetoCorregido.href=arrayDetail[i].href;
         objetoCorregido.text=arrayDetail[i].text;
-        objetoCorregido.rute="traer de recursion el path despeus de incorporar las expresiones esas";
+        objetoCorregido.rute=archivo;
          arrayTrue.push(await prueba(objetoCorregido.href,objetoCorregido))
     }   
     }

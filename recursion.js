@@ -5,9 +5,9 @@ const realPath = require('path');
 const realFs = require('fs');
 
 // var base="D:/LAURAS/Laboratoria/Proyecto 4/BOG002-md-links"
-var base='D:/LAURAS/Laboratoria/Proyecto 4/BOG002-md-links/README.md'
-// var base="prueba/holaestoindex.jsa"
-var relativeExt="prueba/holaestoindex.js"
+// var base='D:/LAURAS/Laboratoria/Proyecto 4/BOG002-md-links/README.md'
+// // var base="prueba/holaestoindex.jsa"
+// var relativeExt="prueba/holaestoindex.js"
 //cada vez que quiera salir de la carpeta en la que estoy agrego dos puntos,si pongo solo un punto es porque estoy en el mismo nivel de mi archivo
 var arrayMD=[]
 //deaddir solo resuelve absolutas

@@ -15,26 +15,13 @@ const mdLinks = (MD,  options = { validate: false }) => {
         console.log("Nel perro "+error)
       });
     }))};
-    // typeof MD === "string" ? (console.log("Si sirve")):(console.log("No sirve"))
-    // const extFile = realPath.extname(MD);
-    // return new Promise((resolve, reject) => {
-    //       if (extFile===".md"){
-    //         console.log(MD)
-    //         resolve(MD)
-    //       } else{
-    //         reject("array vacio")
-    //       }
-            
+   
             
     
-    
-mdLinks(MD,true)
+mdLinks(MD,true)    
 
-// .then(res => {
-//   
-//   //pasarlo a la promesa principal de md links
-// return functions.readLinks(res,userWrote)})
-// .then(hola=>{console.log(hola)})
-//     .catch(error=>{
-//       console.log("Nel perro "+error)
-//     });
+
+// module.exports = {
+//   mdLinks(param1,param2)
+ 
+// };

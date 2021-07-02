@@ -2,7 +2,30 @@
   "name": "md-links",
   "version": "0.1.0",
   "dependencies": {
+    "comander": "0.0.1-security",
     "markdown-link-extractor": "^1.3.0",
     "yargs": "^17.0.1"
-  }
+  },
+  "description": "* [1. Preámbulo](#1-preámbulo)\r * [2. Resumen del proyecto](#2-resumen-del-proyecto)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carfolacam98/BOG002-md-links.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin":{
+    "mdlinks":"./cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/carfolacam98/BOG002-md-links/issues"
+  },
+  "homepage": "https://github.com/carfolacam98/BOG002-md-links#readme"
 }
