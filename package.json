@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose --coverage"
   },
   "repository": {
     "type": "git",
@@ -20,9 +20,17 @@
   },
   "homepage": "https://github.com/nelidita/BOG002-md-links#readme",
   "dependencies": {
+    "chalk": "^4.1.1",
+    "clear": "^0.1.0",
+    "clui": "^0.3.6",
     "eslint": "^7.28.0",
+    "figlet": "^1.5.0",
     "jsdom": "^16.6.0",
     "markdown-it": "^12.0.6",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "yargs": "^17.0.1"
+  },
+  "bin": {
+    "MDLinks": "cli.js"
   }
 }

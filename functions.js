@@ -17,8 +17,9 @@ const pathAbsolute = ((ruta) => {
     const pathConvertAbsolut = path.resolve(ruta);
     return pathConvertAbsolut;
   } else {
-    //lanzar un error
-    console.log("la ruta no existe")
+    // console.error("error")
+    return new Error ("La ruta no existe")
+    // throw new Error ("La ruta no existe")
   }
 });
 
@@ -47,9 +48,8 @@ const pathDirectory = ((ruta, fileDirectory) => {
 // Función que lee el archivo .md
 const ReadMDFile = (arrayListFiles) => {
 
-  // pathAbsolute(ruta);
-  // const arrayListFiles = pathDirectory(ruta);
   let arrayObjectsLinks = []
+  console.log(arrayListFiles)
   arrayListFiles.forEach((ruta1) => {
 
     const data = fs.readFileSync(ruta1, 'utf8')
@@ -98,7 +98,6 @@ const validate = arrayToObjects => {
   )
   return arrayPromisesValidate
 }
-// validate(ReadMDFile("C:/Users/Laboratoria/Documents/Laboratoria bootcamp/BOG002-md-links/README.md"))
 
 module.exports = {
   pathAbsolute,
