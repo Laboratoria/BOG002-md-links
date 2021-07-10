@@ -33,8 +33,7 @@ describe('ReadMDFile', () => {
     expect(typeof functions.ReadMDFile).toBe('function');
   });
   test.only('deberia ser un Array de Objetos', () => {
-
-    expect(mockArrayLinks).toBe(functions.ReadMDFile(mockArrayRoutesMD));
+    expect(mockArrayLinks).toStrictEqual(functions.ReadMDFile(mockArrayRoutesMD));
   });
 
 });

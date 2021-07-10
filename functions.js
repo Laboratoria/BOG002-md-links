@@ -17,8 +17,7 @@ const pathAbsolute = ((ruta) => {
     const pathConvertAbsolut = path.resolve(ruta);
     return pathConvertAbsolut;
   } else {
-    // console.error("error")
-    return new Error ("La ruta no existe")
+    return new Error("La ruta no existe")
     // throw new Error ("La ruta no existe")
   }
 });
@@ -49,7 +48,7 @@ const pathDirectory = ((ruta, fileDirectory) => {
 const ReadMDFile = (arrayListFiles) => {
 
   let arrayObjectsLinks = []
-  console.log(arrayListFiles)
+
   arrayListFiles.forEach((ruta1) => {
 
     const data = fs.readFileSync(ruta1, 'utf8')
@@ -79,22 +78,22 @@ const newObjectStatusLink = object => {
 
   const promise = new Promise(resolve => {
     fetch(object.href)
-    .then( result => {
-      const createObjectStatusLinkOK = {...object, status: result.status, statusText: result.statusText}
-      resolve(createObjectStatusLinkOK)
-    })
-    .catch( error => {
-      const createObjectStatusLinkFail = {...object, status: "fail", statusText: error.errno}
-      resolve(createObjectStatusLinkFail);
-    })
+      .then(result => {
+        const createObjectStatusLinkOK = { ...object, status: result.status, statusText: result.statusText }
+        resolve(createObjectStatusLinkOK)
+      })
+      .catch(error => {
+        const createObjectStatusLinkFail = { ...object, status: "fail", statusText: error.errno }
+        resolve(createObjectStatusLinkFail);
+      })
   })
   return promise
 }
 
 //Función que revisa cada objeto que contiene cada link con fetch y valida el estatus HTTP, retornando una promesa por cada objeto revisado.
 const validate = arrayToObjects => {
-  const arrayPromisesValidate = arrayToObjects.map( object =>
-    newObjectStatusLink (object)
+  const arrayPromisesValidate = arrayToObjects.map(object =>
+    newObjectStatusLink(object)
   )
   return arrayPromisesValidate
 }
